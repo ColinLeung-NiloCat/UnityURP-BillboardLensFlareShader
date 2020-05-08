@@ -19,3 +19,7 @@ Editor environment requirement
 -----------------------
 - URP 7.3.1 or above
 - Unity 2019.3 or above
+
+Hey I found a bug / I want some extra functions
+-----------------------
+send me an issue!
