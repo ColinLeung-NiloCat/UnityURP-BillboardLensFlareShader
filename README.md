@@ -14,7 +14,6 @@ I need to render lots of small lens flares in URP for mobile, and seems that URP
 
 How to use this shader in my URP project?
 -------------------
-Very simple,
  0. Copy this shader into your project
  1. Create a new material using this shader
  2. Assign any flare texture to this new material (flare texture's recommend import setting -> alpha = From Gray Scale)
