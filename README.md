@@ -3,24 +3,25 @@ Easy to use and mobile optimized billboard lens flare shader for unity URP!
 
 (1) BEFORE(nothing added)
 ![screenshot](https://i.imgur.com/gL6gQze.png)
-(2) Added only a new Quad Gamebject (material using URP/Unlit shader)
+(2) Added only a new Quad Gamebject (material using URP/Unlit shader), with a random rotation
 ![screenshot](https://i.imgur.com/TOtySEC.png)
-(3) switched (2)'s material's shader to THIS shader -> flare will auto look it the camera(purely by shader), you DON'T need a C# script to make the quad look at camera! Every thing is just renderer and material.
+(3) only switched step(2)'s material's shader to THIS shader -> flare will auto look the camera(purely by shader), you DON'T need a C# script to make the quad look at the camera! Everything is just renderer and material.
 ![screenshot](https://i.imgur.com/pymZBQF.png)
 
 Why creating this shader?
 -------------------
-I need to render lens flare in URP, and seems URP doesn't have lens flare anymore, so I write a new one.
+I need to render lots of small lens flares in URP for mobile, and seems that URP doesn't have lens flare anymore, so I write a new one.
 
 How to use this shader in my URP project?
 -------------------
+Very simple,
  0. Copy this shader into your project
  1. Create a new material using this shader
- 2. Assign any flare texture to this new material (flare texture's recommended import setting -> alpha = From Gray Scale)
+ 2. Assign any flare texture to this new material (flare texture's recommend import setting -> alpha = From Gray Scale)
  3. Create a new Quad GameObject in scene
  4. drag the material in step(1) into Quad's MeshRenderer's material slot
  5. make sure you have turned on "Need depth texture" in URP setting asset
- 5. Done! Now this Quad GameObject should always look at the camera and will fade out smoothly when "blocked" by scene objects
+ 5. Done! Now this Quad GameObject will always look at the camera and will fade out smoothly when "blocked" by opaque/alpha test renderers.
  
 Editor environment requirement
 -----------------------
