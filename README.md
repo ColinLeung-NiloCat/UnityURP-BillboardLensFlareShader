@@ -3,7 +3,7 @@ Easy to use and optimized billboard lens flare shader for unity URP!
 
 Why creating this shader?
 -------------------
-I need to render lens flare, and URP doesn't have it
+I need to render lens flare, and seems URP doesn't have it
 
 How to use this shader in my URP project?
 -------------------
@@ -13,7 +13,7 @@ How to use this shader in my URP project?
  3. Create a new Quad GameObject in scene
  4. drag the material in step(1) into Quad's MeshRenderer's material slot
  5. make sure you have turn on "need depth texture"
- 5. Done! Now this Quad GameObject should always look at camera, and will fadeout smoothly when "block" by scene objects
+ 5. Done! Now this Quad GameObject should always look at camera, and will fadeout smoothly when "blocked" by scene objects
  
 Editor environment requirement
 -----------------------
