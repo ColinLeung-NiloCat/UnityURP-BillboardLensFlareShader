@@ -26,6 +26,6 @@ send me an issue!
 
 Implementation Reference
 -----------------------
-Low Complexity, High Fidelity: The Rendering of INSIDE's optimized decal shader
+Low Complexity, High Fidelity: The Rendering of INSIDE's optimized lens flare shader
 
 https://youtu.be/RdN06E6Xn9E?t=3257
