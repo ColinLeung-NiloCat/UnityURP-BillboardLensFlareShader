@@ -23,3 +23,9 @@ Editor environment requirement
 Hey I found a bug / I want some extra features
 -----------------------
 send me an issue!
+
+Implementation Reference
+-----------------------
+Low Complexity, High Fidelity: The Rendering of INSIDE's optimized decal shader
+
+https://youtu.be/RdN06E6Xn9E?t=3257
