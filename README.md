@@ -5,8 +5,7 @@ BEFORE(nothing added)
 ![screenshot](https://i.imgur.com/gL6gQze.png)
 Added only a new Quad Gamebject (material using URP/Unlit shader)
 ![screenshot](https://i.imgur.com/TOtySEC.png)
-Added only a new Quad Gamebject (material using THIS shader)
--flare will always look it the camera!
+Added only a new Quad Gamebject (material using THIS shader) -> flare will always look it the camera!
 ![screenshot](https://i.imgur.com/pymZBQF.png)
 
 Why creating this shader?
