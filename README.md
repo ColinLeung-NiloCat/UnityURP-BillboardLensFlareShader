@@ -1,4 +1,4 @@
-# UnityURP-BillboardLensFlareShader(SRP batcher compatible)
+# UnityURP-BillboardLensFlare Shader(SRP batcher compatible)
 Easy to use and optimized billboard lens flare shader for unity URP!
 
 Why creating this shader?
