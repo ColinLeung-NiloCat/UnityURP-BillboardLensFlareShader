@@ -3,7 +3,7 @@ Easy to use and mobile optimized billboard lens flare shader for unity URP!
 
 (1) BEFORE(nothing added)
 ![screenshot](https://i.imgur.com/gL6gQze.png)
-(2) Added only a new Quad Gamebject (material using URP/Unlit shader), with a random rotation just to prove it is working in step(3)
+(2) Added only a new Quad Gamebject (material using URP/Unlit shader), with a random rotation just to prove it will work with any rotation in step(3)
 ![screenshot](https://i.imgur.com/TOtySEC.png)
 (3) only switched step(2)'s material's shader to THIS shader -> now lens flare will always look the camera(purely by shader), you DON'T need a C# script to make the quad look at the camera! Everything is just renderer and material.
 ![screenshot](https://i.imgur.com/pymZBQF.png)
