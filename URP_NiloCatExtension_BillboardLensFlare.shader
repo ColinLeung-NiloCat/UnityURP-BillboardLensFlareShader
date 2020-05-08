@@ -1,4 +1,4 @@
-﻿//see README here: 
+//see README here: 
 //github.com/ColinLeung-NiloCat/UnityURP-BillboardLensFlareShader
 
 Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
@@ -24,7 +24,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
 
         [Header(Depth Occlusion)]
         _LightSourceViewSpaceRadius("_LightSourceViewSpaceRadius", range(0,1)) = 0.05
-        _DepthOcclusionTestZBias("_DepthTestZBias", range(-1,1)) = 0
+        _DepthOcclusionTestZBias("_DepthOcclusionTestZBias", range(-1,1)) = 0
 
         [Header(If camera too close Auto fadeout)]
         _StartFadeinDistanceWorldUnit("_StartFadeinDistanceWorldUnit",Float) = 0
@@ -46,6 +46,8 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
 
             //we need object space vertex position, can't allow dynamic batching
             "DisableBatching" = "True" 
+
+            "IgnoreProjector" = "True"
         }
 
         //we will do multiple depth tests inside the vertex shader, so turn every Z related setting off
@@ -83,7 +85,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
             half _OverrideAlphaTo;
 
             float _LightSourceViewSpaceRadius;
-            float _DepthTestZBias;
+            float _DepthOcclusionTestZBias;
 
             float _StartFadeinDistanceWorldUnit;
             float _EndFadeinDistanceWorldUnit;
@@ -175,14 +177,14 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                             continue;
 
                         //we don't have tex2D() in vertex shader, because rasterization is not done, so use tex2Dlod() with mip0 instead
-                        float sampledSceneDepth = tex2Dlod(_CameraDepthTexture,float4(screenUV,0,0));
+                        float sampledSceneDepth = tex2Dlod(_CameraDepthTexture,float4(screenUV,0,0)).x;
                         float linearEyeDepthFromSceneDepthTexture = LinearEyeDepth(sampledSceneDepth,_ZBufferParams);
                         float linearEyeDepthFromALU = PivotPosCS.w;
 
                         //do the actual comparision test
                         //+1 means flare test point is visible in screen space
                         //+0 means flare test point blocked by other objects in screen space, not visible
-                        visibilityTestPassedCount += linearEyeDepthFromALU+_DepthTestZBias < linearEyeDepthFromSceneDepthTexture ? 1 : 0; 
+                        visibilityTestPassedCount += linearEyeDepthFromALU+_DepthOcclusionTestZBias < linearEyeDepthFromSceneDepthTexture ? 1 : 0; 
                     }
                 }
 
