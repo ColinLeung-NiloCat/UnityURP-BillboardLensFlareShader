@@ -1,11 +1,11 @@
 # UnityURP-BillboardLensFlare Shader(SRP batcher compatible)
 Easy to use and mobile optimized billboard lens flare shader for unity URP!
 
-(!)BEFORE(nothing added)
+(1) BEFORE(nothing added)
 ![screenshot](https://i.imgur.com/gL6gQze.png)
-(2a)Added only a new Quad Gamebject (material using URP/Unlit shader)
+(2a) Added only a new Quad Gamebject (material using URP/Unlit shader)
 ![screenshot](https://i.imgur.com/TOtySEC.png)
-(2b)Added only a new Quad Gamebject (material using THIS shader) -> flare will always look it the camera!
+(2b) Added only a new Quad Gamebject (material using THIS shader) -> flare will always look it the camera!
 ![screenshot](https://i.imgur.com/pymZBQF.png)
 
 Why creating this shader?
