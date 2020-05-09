@@ -36,7 +36,7 @@ Requirement when using this shader
 - Forward rendering in URP
 - _CameraDepthTexture is already rendering by unity (toggle on DepthTexture in your Universal Render Pipeline Asset)
 
-FAQ:My lens flare texture doesn't have alpha channel, and setting my texture's import setting's alpha = "From Gray Scale" is still not looking correct...What should I do?
+FAQ: My lens flare texture doesn't have alpha channel, and setting my texture's import setting's alpha = "From Gray Scale" is still not looking correct...What should I do?
 -----------------------
 try turn OFF "_UsePreMultiplyAlpha" in material's setting, now shader will only consider rgb in your lens flare texture, and add it directly to screen.
 
