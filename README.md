@@ -10,7 +10,7 @@ Easy to use and mobile optimized billboard lens flare shader for unity URP!
 
 Why creating this shader?
 -------------------
-I need to render lots of small lens flares in URP for mobile(Gameplay enemy attack signals, enviroment light source...), and seems that URP doesn't have any official lens flare, so I write a new one which performance is as fast as possible, also easy for anyone to use.
+I need to render lots of small lens flares in URP for mobile(Gameplay enemy attack signals, enviroment light source like lamps), and seems that URP doesn't have any official lens flare, so I write a new one which performance is as fast as possible, also easy for anyone to use.
 
 How to use this shader in my URP project?
 -------------------
@@ -23,8 +23,18 @@ How to use this shader in my URP project?
  5. Done! Now this Quad GameObject will always look at the camera and will fade out smoothly when the lens flare was "blocked" by opaque/alpha test renderers.
 
 My lens flare texture don't have alpha channel, and setting texture's alpha = From Gray Scale is still not looking correct...What should I do?
--------------------
+-----------------------
 try turn OFF "_UsePreMultiplyAlpha" in material's setting, now shader will only consider rgb in your lens flare texture, and add it directly to screen.
+
+I stick my lens flare onto a light source object, now the lens flare is flickering, what should I do?
+-----------------------
+drag "_DepthOcclusionTestZBias" to a negative number (e.g. -0.1), which makes the DepthOcclusionTest easier to pass 
+
+Can I use it for particle system?
+-----------------------
+NO, this shader requires object space mesh position data, so both the particle system and shader must support it in order to make it works, which is not included in this shader.
+
+
 
 Editor environment requirement
 -----------------------
