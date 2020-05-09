@@ -8,8 +8,8 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
         //////////////////////////////////////////////////////////////////////////////////////////
         //same name as URP's official shader, so switching material's shader to this will still preserve settings
         //////////////////////////////////////////////////////////////////////////////////////////
-        [HDR][MainColor] _BaseColor("BaseColor", Color) = (1,1,1,1)
-        _BaseColorIntensity("_BaseColorIntensity", Float) = 1
+        [MainColor] _BaseColor("BaseColor", Color) = (1,1,1,1)
+        _BaseColorRGBIntensity("_BaseColorRGBIntensity", Float) = 1
         [MainTexture] _BaseMap("BaseMap", 2D) = "white" {}
         _RemoveTextureArtifact("_RemoveTextureArtifact", Range(0,0.5)) = 0.003
 
@@ -18,11 +18,6 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
         //////////////////////////////////////////////////////////////////////////////////////////
         [Header(PreMultiply Alpha. Turn it ON only if your texture has correct alpha)]
         [Toggle]_UsePreMultiplyAlpha("_UsePreMultiplyAlpha (recommend _BaseMap's alpha = 'From Gray Scale')", Float) = 0
-
-        [Header(Override Alpha. Use when flare is too bright)]
-        [Toggle]_ShouldOverrideAlpha("_ShouldOverrideAlpha", Float) = 0
-        _OverrideAlphaUsage("_OverrideAlphaUsage", Range(0,1)) = 1
-        _OverrideAlphaTo("_OverrideAlphaTo", Range(0,1)) = 1
 
         [Header(Depth Occlusion)]
         _LightSourceViewSpaceRadius("_LightSourceViewSpaceRadius", range(0,1)) = 0.05
@@ -79,14 +74,10 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
 
             float4 _BaseMap_ST;
             half4 _BaseColor;
-            half _BaseColorIntensity;
+            half _BaseColorRGBIntensity;
             half _RemoveTextureArtifact;
 
             float _UsePreMultiplyAlpha;
-
-            float _ShouldOverrideAlpha;
-            half _OverrideAlphaUsage;
-            half _OverrideAlphaTo;
 
             float _LightSourceViewSpaceRadius;
             float _DepthOcclusionTestZBias;
@@ -131,7 +122,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 Varyings OUT;
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 OUT.color = IN.color * _BaseColor;
-                OUT.color.rgb *= _BaseColorIntensity;
+                OUT.color.rgb *= _BaseColorRGBIntensity;
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //make quad look at camera in view space
@@ -221,8 +212,6 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 //premultiply alpha to rgb after alpha's calculation is done
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                  
                 OUT.color.a = _UsePreMultiplyAlpha? OUT.color.a : 0;
-                OUT.color.a = lerp(OUT.color.a, _OverrideAlphaTo, _OverrideAlphaUsage * _ShouldOverrideAlpha);
-
 
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
