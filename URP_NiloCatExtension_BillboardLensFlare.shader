@@ -8,29 +8,29 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
         //////////////////////////////////////////////////////////////////////////////////////////
         //same name as URP's official shader, so switching material's shader to this will still preserve settings
         //////////////////////////////////////////////////////////////////////////////////////////
-        [MainColor] _BaseColor("BaseColor", Color) = (1,1,1,1)
-        _BaseColorRGBIntensity("_BaseColorRGBIntensity", Float) = 1
-        [MainTexture] _BaseMap("BaseMap", 2D) = "white" {}
-        _RemoveTextureArtifact("_RemoveTextureArtifact", Range(0,0.5)) = 0.003
+        [MainColor] _BaseColor("BaseColor (can use alpha to do fadeout)", Color) = (1,1,1,1)
+        _BaseColorRGBIntensity("BaseColorRGBIntensity", Float) = 1
+        [MainTexture] _BaseMap("BaseMap (regular LDR texture)", 2D) = "white" {}
+        _RemoveTextureArtifact("RemoveTextureArtifact", Range(0,0.5)) = 0
 
         //////////////////////////////////////////////////////////////////////////////////////////
         //custom settings
         //////////////////////////////////////////////////////////////////////////////////////////
         [Header(PreMultiply Alpha. Turn it ON only if your texture has correct alpha)]
-        [Toggle]_UsePreMultiplyAlpha("_UsePreMultiplyAlpha (recommend _BaseMap's alpha = 'From Gray Scale')", Float) = 0
+        [Toggle]_UsePreMultiplyAlpha("UsePreMultiplyAlpha (recommend _BaseMap's alpha = 'From Gray Scale')", Float) = 0
 
         [Header(Depth Occlusion)]
-        _LightSourceViewSpaceRadius("_LightSourceViewSpaceRadius", range(0,1)) = 0.05
-        _DepthOcclusionTestZBias("_DepthOcclusionTestZBias", range(-1,1)) = -0.001
+        _LightSourceViewSpaceRadius("LightSourceViewSpaceRadius", range(0,1)) = 0.05
+        _DepthOcclusionTestZBias("DepthOcclusionTestZBias", range(-1,1)) = -0.001
 
         [Header(If camera too close Auto fadeout)]
-        _StartFadeinDistanceWorldUnit("_StartFadeinDistanceWorldUnit",Float) = 0.05
-        _EndFadeinDistanceWorldUnit("_EndFadeinDistanceWorldUnit", Float) = 0.5
+        _StartFadeinDistanceWorldUnit("StartFadeinDistanceWorldUnit",Float) = 0.05
+        _EndFadeinDistanceWorldUnit("EndFadeinDistanceWorldUnit", Float) = 0.5
 
         [Header(Optional Flicker animation)]
-        [Toggle]_ShouldDoFlicker("_ShouldDoFlicker", FLoat) = 1
-        _FlickerAnimSpeed("_FlickerAnimSpeed", Float) = 5
-        _FlickResultIntensityLowestPoint("_FlickResultIntensityLowestPoint", range(0,1)) = 0.5
+        [Toggle]_ShouldDoFlicker("ShouldDoFlicker", FLoat) = 1
+        _FlickerAnimSpeed("FlickerAnimSpeed", Float) = 5
+        _FlickResultIntensityLowestPoint("FlickResultIntensityLowestPoint", range(0,1)) = 0.5
     }
 
     SubShader
