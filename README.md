@@ -40,13 +40,13 @@ FAQ: My lens flare texture doesn't have alpha channel, and setting my texture's 
 -----------------------
 try turn OFF "_UsePreMultiplyAlpha" in material's setting, now shader will only consider rgb in your lens flare texture, and add it directly to screen.
 
-FAQ: I stick my lens flare onto a light source renderer, now this lens flare is flickering randomly, what should I do?
+FAQ: I snap my lens flare quad onto a lamp renderer's vertex, now this lens flare is occluded randomly, what should I do?
 -----------------------
 drag "_DepthOcclusionTestZBias" to a negative number (e.g. -0.1), which makes the DepthOcclusionTest easier to pass, hence more stable.
 
 FAQ: Can I use it for particle system?
 -----------------------
-NO, this shader requires object space mesh position data, so both the particle system and shader must support it in order to make it works, which is not included in this shader.
+NO, this shader requires object space mesh position data, particle system will break it. In order to make it works for particle system, both the particle system and this shader must work together in order to make it works, which is not included in this shader for simplisity reason.
 
 FAQ: Is this shader optimized for mobile?
 -------------------
