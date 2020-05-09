@@ -18,8 +18,8 @@ Shader Features
 
 Why creating this shader?
 -------------------
-I need to render lots of small lens flares in URP for mobile (gameplay enemy attack signals, battle vfx, environment light source like lamps...), and seems that URP doesn't have any official lens flare support, so I write a new shader for this task. 
-This shader's render cost is as low as possible(almost impossible for me to improve it anymore), also generic enough for anyone to use this shader in their own project easily.
+I need to render lots of small lens flares in URP for mobile (gameplay enemy attack signals, battle vfx, environment light source like lamps...) and it seems that URP doesn't have any official lens flare support, so I write a new shader for this task. 
+This shader's render cost is as low as possible(almost impossible for me to improve it anymore), also generic enough for anyone to use this shader in their project easily.
 
 How to use this shader in my URP project?
 -------------------
@@ -36,32 +36,32 @@ Requirement when using this shader
 - Forward rendering in URP
 - _CameraDepthTexture is already rendering by unity (toggle on DepthTexture in your Universal Render Pipeline Asset)
 
-FAQ: My lens flare texture doesn't have alpha channel, and setting my texture's import setting's alpha = "From Gray Scale" is still not looking correct...What should I do?
+FAQ: My lens flare texture doesn't have an alpha channel, and setting my texture's import setting's alpha = "From Gray Scale" is still not looking correct...What should I do?
 -----------------------
-try turn OFF "_UsePreMultiplyAlpha" in material's setting, now shader will only consider rgb in your lens flare texture, and add it directly to screen.
+try turn OFF "_UsePreMultiplyAlpha" in the material's setting, now shader will only consider RGB in your lens flare texture, and add it directly to screen.
 
 FAQ: I snap my lens flare quad onto a lamp renderer's vertex, now this lens flare is occluded randomly, what should I do?
 -----------------------
 drag "_DepthOcclusionTestZBias" to a negative number (e.g. -0.1), which makes the DepthOcclusionTest easier to pass, hence more stable.
 
-FAQ: Can I use it for particle system?
+FAQ: Can I use it for the particle system?
 -----------------------
-NO, this shader requires object space mesh position data, particle system will break it. In order to make it works for particle system, both the particle system and this shader must work together in order to make it works, which is not included in this shader for simplisity reason.
+NO, this shader requires object space mesh position data, particle system will break it. To make it works for the particle system, both the particle system and this shader must work together to make it works, which is not included in this shader for simplicity reason.
 
 FAQ: Is this shader optimized for mobile?
 -------------------
 This shader is SRP batcher compatible, so you can put lots of lens flares in scene without hurting CPU performance too much(even all lens flares use different materials).
 
-Also, this shader moved almost all calculation from fragment shader to vertex shader, so you can put lots of lens flares in scene without hurting GPU performance too much, as long as they are small and don't overlap with each other(overdraw).
+Also, this shader moved almost all calculations from fragment shader to vertex shader, so you can put lots of lens flares in scene without hurting GPU performance too much, as long as they are small and don't overlap with each other(overdraw).
 
 Editor environment requirement
 -----------------------
 - URP 7.3.1 or above
 - Unity 2019.3 or above
 
-Hey I found a bug! / I want some critical features!
+Hey, I found a bug! / I want some critical features!
 -----------------------
-send me an issue using github! (don't send it to my email, I may miss it)
+send me an issue using GitHub! (don't send it to my email, I may miss it)
 
 Implementation Reference
 -----------------------
