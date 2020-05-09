@@ -18,7 +18,7 @@ Shader Features
 
 Why creating this shader?
 -------------------
-I need to render lots of small lens flares in URP for mobile (gameplay enemy attack signals, battle vfx, enviroment light source like lamps...), and seems that URP doesn't have any official lens flare support, so I write a new shader for this task. 
+I need to render lots of small lens flares in URP for mobile (gameplay enemy attack signals, battle vfx, environment light source like lamps...), and seems that URP doesn't have any official lens flare support, so I write a new shader for this task. 
 This shader's render cost is as low as possible(almost impossible for me to improve it anymore), also generic enough for anyone to use this shader in their own project easily.
 
 How to use this shader in my URP project?
