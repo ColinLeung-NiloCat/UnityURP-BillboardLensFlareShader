@@ -22,13 +22,13 @@ How to use this shader in my URP project?
  5. make sure you have turned on "Need depth texture" in URP setting asset
  5. Done! Now this Quad GameObject will always look at the camera and will fade out smoothly when the lens flare was "blocked" by opaque/alpha test renderers.
 
-My lens flare texture don't have alpha channel, and setting texture's alpha = From Gray Scale is still not looking correct...What should I do?
+My lens flare texture doesn't have alpha channel, and setting my texture's import setting's alpha = "From Gray Scale" is still not looking correct...What should I do?
 -----------------------
 try turn OFF "_UsePreMultiplyAlpha" in material's setting, now shader will only consider rgb in your lens flare texture, and add it directly to screen.
 
-I stick my lens flare onto a light source object, now the lens flare is flickering, what should I do?
+I stick my lens flare onto a light source renderer, now this lens flare is flickering randomly, what should I do?
 -----------------------
-drag "_DepthOcclusionTestZBias" to a negative number (e.g. -0.1), which makes the DepthOcclusionTest easier to pass 
+drag "_DepthOcclusionTestZBias" to a negative number (e.g. -0.1), which makes the DepthOcclusionTest easier to pass, hence more stable.
 
 Can I use it for particle system?
 -----------------------
@@ -38,16 +38,16 @@ Is this shader optimized for mobile?
 -------------------
 This shader is SRP batcher compatible, so you can put lots of lens flares in scene without hurting CPU performance too much(even all lens flares use different materials).
 
-Also, this shader moved almost all calculation from fragment shader to vertex shader, so you can put lots of lens flares in scene without hurting GPU performance too much, as long as they are small and don't overlap(overdraw).
+Also, this shader moved almost all calculation from fragment shader to vertex shader, so you can put lots of lens flares in scene without hurting GPU performance too much, as long as they are small and don't overlap with each other(overdraw).
 
 Editor environment requirement
 -----------------------
 - URP 7.3.1 or above
 - Unity 2019.3 or above
 
-Hey I found a bug! / I want some extra features!
+Hey I found a bug! / I want some critical features!
 -----------------------
-send me an issue using github! (don't send to my email)
+send me an issue using github! (don't send it to my email, I may miss it)
 
 Implementation Reference
 -----------------------
