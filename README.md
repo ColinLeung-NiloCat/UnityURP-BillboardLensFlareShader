@@ -4,6 +4,8 @@ You can copy this shader file into your URP project and use it easily.
 
 Shader Result
 -------------------
+See it in motion: https://youtu.be/owMhp5zZ1Sw
+---
 (1) BEFORE(nothing added)
 ![screenshot](https://i.imgur.com/gL6gQze.png)
 (2) Added a new Quad Gamebject only(material using URP/Unlit shader), the transform component also set to a random rotation just to prove that it will work with any transform rotation in step(3)
