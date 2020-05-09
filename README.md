@@ -31,6 +31,11 @@ How to use this shader in my URP project?
  5. make sure you have turned on "Need depth texture" in URP setting asset
  5. Done! Now this Quad GameObject will always look at the camera and will fade out smoothly when the lens flare was "blocked" by opaque/alpha test renderers.
 
+Requirement when using this shader
+-------------------
+- Forward rendering in URP
+- _CameraDepthTexture is already rendering by unity (toggle on DepthTexture in your Universal Render Pipeline Asset)
+
 My lens flare texture doesn't have alpha channel, and setting my texture's import setting's alpha = "From Gray Scale" is still not looking correct...What should I do?
 -----------------------
 try turn OFF "_UsePreMultiplyAlpha" in material's setting, now shader will only consider rgb in your lens flare texture, and add it directly to screen.
