@@ -40,15 +40,15 @@ FAQ:My lens flare texture doesn't have alpha channel, and setting my texture's i
 -----------------------
 try turn OFF "_UsePreMultiplyAlpha" in material's setting, now shader will only consider rgb in your lens flare texture, and add it directly to screen.
 
-FAQ:I stick my lens flare onto a light source renderer, now this lens flare is flickering randomly, what should I do?
+FAQ: I stick my lens flare onto a light source renderer, now this lens flare is flickering randomly, what should I do?
 -----------------------
 drag "_DepthOcclusionTestZBias" to a negative number (e.g. -0.1), which makes the DepthOcclusionTest easier to pass, hence more stable.
 
-FAQ:Can I use it for particle system?
+FAQ: Can I use it for particle system?
 -----------------------
 NO, this shader requires object space mesh position data, so both the particle system and shader must support it in order to make it works, which is not included in this shader.
 
-FAQ:Is this shader optimized for mobile?
+FAQ: Is this shader optimized for mobile?
 -------------------
 This shader is SRP batcher compatible, so you can put lots of lens flares in scene without hurting CPU performance too much(even all lens flares use different materials).
 
