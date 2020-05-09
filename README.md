@@ -14,8 +14,10 @@ Shader Result
 Shader Features
 -------------------
 - auto look at camera (billboard)
-- scene depth occlusion (use lens flare's center to do depth test)
-- (optional)simple flicker animation
+- smooth scene depth occlusion (use lens flare's center to do depth test)
+- render on top of everything (a lens flare shader!)
+- smooth fadeout when camera is too close to lens flare
+- (optional)simple flicker animation inside shader, to save you time from setting up simple animation
 
 Why creating this shader?
 -------------------
@@ -30,7 +32,7 @@ How to use this shader in my URP project?
  3. Create a new Quad GameObject in scene
  4. drag the material in step(1) into Quad's MeshRenderer's material slot
  5. make sure you have turned on "Need depth texture" in URP setting asset
- 5. Done! Now this Quad GameObject will always look at the camera and will fade out smoothly when the lens flare was "blocked" by opaque/alpha test renderers.
+ 5. Done! Now this Quad GameObject will always look at the camera and will fade out smoothly when the lens flare's center was "blocked" by opaque/alpha test renderers.
 
 Requirement when using this shader
 -------------------
