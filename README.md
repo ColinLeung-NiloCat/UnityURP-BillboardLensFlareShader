@@ -14,22 +14,26 @@ I need to render lots of small lens flares in URP for mobile, and seems that URP
 
 How to use this shader in my URP project?
 -------------------
- 0. Copy this shader into your project
- 1. Create a new material using this shader (Universal Render Pipeline -> NiloCat Extension -> BillBoard LensFlare)
+ 0. Copy this shader into your URP project
+ 1. Create a new material using this shader (Shader path: Universal Render Pipeline -> NiloCat Extension -> BillBoard LensFlare)
  2. Assign any lens flare texture to this new material's texture slot(lens flare texture's recommend import setting -> alpha = From Gray Scale)
  3. Create a new Quad GameObject in scene
  4. drag the material in step(1) into Quad's MeshRenderer's material slot
  5. make sure you have turned on "Need depth texture" in URP setting asset
  5. Done! Now this Quad GameObject will always look at the camera and will fade out smoothly when the lens flare was "blocked" by opaque/alpha test renderers.
- 
+
+My lens flare texture don't have alpha channel
+-------------------
+turn OFF "_UsePreMultiplyAlpha" in material's setting, now it will only consider rgb in your lens flare texture.
+
 Editor environment requirement
 -----------------------
 - URP 7.3.1 or above
 - Unity 2019.3 or above
 
-Hey I found a bug / I want some extra features
+Hey I found a bug! / I want some extra features!
 -----------------------
-send me an issue!
+send me an issue using github! (don't send to my email)
 
 Implementation Reference
 -----------------------
