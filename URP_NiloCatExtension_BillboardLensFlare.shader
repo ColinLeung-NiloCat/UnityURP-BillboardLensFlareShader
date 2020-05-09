@@ -9,25 +9,27 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
         //same name as URP's official shader, so switching material's shader to this will still preserve settings
         //////////////////////////////////////////////////////////////////////////////////////////
         [HDR][MainColor] _BaseColor("BaseColor", Color) = (1,1,1,1)
+        _BaseColorIntensity("_BaseColorIntensity", Float) = 1
         [MainTexture] _BaseMap("BaseMap", 2D) = "white" {}
+        _RemoveTextureArtifact("_RemoveTextureArtifact", Range(0,0.5)) = 0.003
 
         //////////////////////////////////////////////////////////////////////////////////////////
         //custom settings
         //////////////////////////////////////////////////////////////////////////////////////////
-        [Header(PreMultiply Alpha)]
-        [Toggle]_UsePreMultiplyAlpha("_UsePreMultiplyAlpha (recommend _BaseMap's alpha = 'From Gray Scale')", Float) = 1
+        [Header(PreMultiply Alpha. Turn it ON only if your texture has correct alpha)]
+        [Toggle]_UsePreMultiplyAlpha("_UsePreMultiplyAlpha (recommend _BaseMap's alpha = 'From Gray Scale')", Float) = 0
 
-        [Header(Override Alpha)]
+        [Header(Override Alpha. Use when flare is too bright)]
         [Toggle]_ShouldOverrideAlpha("_ShouldOverrideAlpha", Float) = 0
         _OverrideAlphaUsage("_OverrideAlphaUsage", Range(0,1)) = 1
         _OverrideAlphaTo("_OverrideAlphaTo", Range(0,1)) = 1
 
         [Header(Depth Occlusion)]
         _LightSourceViewSpaceRadius("_LightSourceViewSpaceRadius", range(0,1)) = 0.05
-        _DepthOcclusionTestZBias("_DepthOcclusionTestZBias", range(-1,1)) = 0
+        _DepthOcclusionTestZBias("_DepthOcclusionTestZBias", range(-1,1)) = -0.001
 
         [Header(If camera too close Auto fadeout)]
-        _StartFadeinDistanceWorldUnit("_StartFadeinDistanceWorldUnit",Float) = 0
+        _StartFadeinDistanceWorldUnit("_StartFadeinDistanceWorldUnit",Float) = 0.05
         _EndFadeinDistanceWorldUnit("_EndFadeinDistanceWorldUnit", Float) = 0.5
 
         [Header(Optional Flicker animation)]
@@ -77,6 +79,8 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
 
             float4 _BaseMap_ST;
             half4 _BaseColor;
+            half _BaseColorIntensity;
+            half _RemoveTextureArtifact;
 
             float _UsePreMultiplyAlpha;
 
@@ -127,6 +131,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 Varyings OUT;
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 OUT.color = IN.color * _BaseColor;
+                OUT.color.rgb *= _BaseColorIntensity;
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //make quad look at camera in view space
@@ -239,7 +244,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
             //all flare logic in vertex shader will still works without problem.
             half4 frag(Varyings IN) : SV_Target
             {
-                return SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * IN.color;
+                return saturate(SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv)-_RemoveTextureArtifact) * IN.color;
             }
             ENDHLSL
         }
