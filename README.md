@@ -8,14 +8,14 @@ See it in motion: https://youtu.be/owMhp5zZ1Sw
 ---
 (1) BEFORE(nothing added)
 ![screenshot](https://i.imgur.com/gL6gQze.png)
-(2) Added a new Quad Gamebject only(material using URP/Unlit shader), the transform component also set to a random rotation just to prove that it will work with any transform rotation in step(3)
+(2) Added a new Quad Gamebject only, apply a random rotation just to prove that it will work with any transform.rotation in step(3)
 ![screenshot](https://i.imgur.com/TOtySEC.png)
-(3) only switched step(2)'s material's shader to THIS shader -> DONE! Now lens flare will always look at the camera(purely done by shader), you DON'T need a C# script to make the quad look at the camera! It is just a regular MeshRenderer, without any C# / particle system.
+(3) Now switch Quad's material's shader to THIS lens flare shader -> DONE! Now lens flare will always look at the camera(purely done by shader), you DON'T need a C# script to make the quad look at the camera! It is just a regular MeshRenderer, without any C# / particle system.
 ![screenshot](https://i.imgur.com/pymZBQF.png)
 
 Shader Features
 -------------------
-- auto look at camera (billboard)
+- auto look at camera (billboard without any C# / particle system)
 - smooth scene depth occlusion (use lens flare's center to do depth test)
 - render on top of everything (a lens flare shader!)
 - smooth fadeout when camera is too close to lens flare
