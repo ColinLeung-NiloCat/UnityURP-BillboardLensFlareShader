@@ -10,7 +10,7 @@ Easy to use and mobile optimized billboard lens flare shader for unity URP!
 
 Why creating this shader?
 -------------------
-I need to render lots of small lens flares in URP for mobile(Gameplay enemy attack signals, battle vfx, enviroment light source like lamps), and seems that URP doesn't have any official lens flare, so I write a new shader for this task, where shader performance is as fast as possible, also easy for anyone to use in their own project.
+I need to render lots of small lens flares in URP for mobile(Gameplay enemy attack signals, battle vfx, enviroment light source like lamps...), and seems that URP doesn't have any official lens flare support, so I write a new shader for this task, where this shader's performance is as fast as possible, also generic enough for anyone to easily reuse this shader in their own project.
 
 How to use this shader in my URP project?
 -------------------
