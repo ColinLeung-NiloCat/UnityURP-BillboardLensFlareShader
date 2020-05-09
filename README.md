@@ -1,5 +1,6 @@
 # UnityURP-BillboardLensFlare Shader(SRP batcher compatible)
 A single file billboard lens flare shader, which is easy to use and mobile optimized for unity URP!
+You can copy this shader file into your URP project and use it easily. 
 
 Shader Result
 -------------------
