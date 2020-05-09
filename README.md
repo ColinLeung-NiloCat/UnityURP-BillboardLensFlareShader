@@ -34,7 +34,11 @@ Can I use it for particle system?
 -----------------------
 NO, this shader requires object space mesh position data, so both the particle system and shader must support it in order to make it works, which is not included in this shader.
 
+Is this shader optimized for mobile?
+-------------------
+This shader is SRP batcher compatible, so you can put lots of lens flares in scene without hurting CPU performance too much(even all lens flares use different materials).
 
+Also, this shader moved almost all calculation from fragment shader to vertex shader, so you can put lots of lens flares in scene without hurting GPU performance too much, as long as they are small and don't overlap(overdraw).
 
 Editor environment requirement
 -----------------------
