@@ -1,16 +1,24 @@
 # UnityURP-BillboardLensFlare Shader(SRP batcher compatible)
-Easy to use and mobile optimized billboard lens flare shader for unity URP!
+A single file billboard lens flare shader, which is easy to use and mobile optimized for unity URP!
 
+Shader Result
+-------------------
 (1) BEFORE(nothing added)
 ![screenshot](https://i.imgur.com/gL6gQze.png)
-(2) Added a new Quad Gamebject only(material using URP/Unlit shader), with a random rotation just to prove that it will work with any rotation in step(3)
+(2) Added a new Quad Gamebject only(material using URP/Unlit shader), transform set to a random rotation just to prove that it will work with any transform rotation in step(3)
 ![screenshot](https://i.imgur.com/TOtySEC.png)
-(3) only switched step(2)'s material's shader to THIS shader -> now lens flare will always look at the camera(purely done by shader), you DON'T need a C# script to make the quad look at the camera! Everything is just regular material+shader, without C#.
+(3) only switched step(2)'s material's shader to THIS shader -> now lens flare will always look at the camera(purely done by shader), you DON'T need a C# script to make the quad look at the camera! It is just a regular MeshRenderer, without any C# / particle system.
 ![screenshot](https://i.imgur.com/pymZBQF.png)
+
+Shader Features
+-------------------
+- auto look at camera
+- scene depth occlusion (use lens flare's center to do depth test)
+- simple flicker animation option
 
 Why creating this shader?
 -------------------
-I need to render lots of small lens flares in URP for mobile(Gameplay enemy attack signals, battle vfx, enviroment light source like lamps...), and seems that URP doesn't have any official lens flare support, so I write a new shader for this task. This shader's render cost is as low as possible(almost impossible to improve it more), also generic enough for anyone to easily reuse this shader in their own project.
+I need to render lots of small lens flares in URP for mobile(Gameplay enemy attack signals, battle vfx, enviroment light source like lamps...), and seems that URP doesn't have any official lens flare support, so I write a new shader for this task. This shader's render cost is as low as possible(almost impossible for me to improve it anymore), also generic enough for anyone to use this shader in their own project easily.
 
 How to use this shader in my URP project?
 -------------------
