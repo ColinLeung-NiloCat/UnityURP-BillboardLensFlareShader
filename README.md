@@ -12,9 +12,9 @@ Shader Result
 
 Shader Features
 -------------------
-- auto look at camera
+- auto look at camera (billboard)
 - scene depth occlusion (use lens flare's center to do depth test)
-- simple flicker animation option
+- (optional)simple flicker animation
 
 Why creating this shader?
 -------------------
