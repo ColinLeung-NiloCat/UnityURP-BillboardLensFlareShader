@@ -138,7 +138,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                     length(float3(GetObjectToWorldMatrix()[0].y, GetObjectToWorldMatrix()[1].y, GetObjectToWorldMatrix()[2].y)) // scale y axis
                     );
 
-                float3 posVS = quadPivotPosVS + float3(IN.positionOS.xy * scaleXY_WS,0);//recontruct quad 4 points in view space, now use can use posVS as usual
+                float3 posVS = quadPivotPosVS + float3(IN.positionOS.xy * scaleXY_WS,0);//recontruct quad 4 points in view space
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //complete SV_POSITION's view space to HClip space transformation
@@ -146,7 +146,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 OUT.positionHCS = mul(GetViewToHClipMatrix(),float4(posVS,1));
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //do smooth visibility test using brute force forloop
+                //do smooth visibility test using brute force forloop (COUNT*2+1)^2 times inside a view space 2D grid area
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 float visibilityTestPassedCount = 0;
                 float linearEyeDepthOfFlarePivot = -quadPivotPosVS.z;//view space's forward is pointing to -Z, but we want +Z, so negate it
@@ -163,62 +163,64 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                     for(int y = -COUNT; y <= COUNT ; y++)
                     {
                         float3 testPosVS = quadPivotPosVS;
-                        testPosVS.xy += float2(x,y) * maxSingleAxisOffset;//add 2D test grid offset, in const world unit
+                        testPosVS.xy += float2(x,y) * maxSingleAxisOffset;//add 2D test grid offset, in const view space unit
                         float4 PivotPosCS = mul(GetViewToHClipMatrix(),float4(testPosVS,1));
                         float4 PivotScreenPos = ComputeScreenPos(PivotPosCS);
                         float2 screenUV = PivotScreenPos.xy/PivotScreenPos.w;
 
                         //if screenUV out of bound, treat it as occluded, because no correct depth texture data can be used to compare
                         if(screenUV.x > 1 || screenUV.x < 0 || screenUV.y > 1 || screenUV.y < 0)
-                            continue;
+                            continue; //exit means occluded
 
-                        //we don't have tex2D() in vertex shader, because rasterization is not done, so use tex2Dlod() with mip0 instead
-                        float sampledSceneDepth = tex2Dlod(_CameraDepthTexture,float4(screenUV,0,0)).x;
+                        //we don't have tex2D() in vertex shader, because rasterization is not done by GPU, so we use tex2Dlod() with mip0 instead
+                        float sampledSceneDepth = tex2Dlod(_CameraDepthTexture,float4(screenUV,0,0)).x;//(uv.x,uv.y,0,mipLevel)
                         float linearEyeDepthFromSceneDepthTexture = LinearEyeDepth(sampledSceneDepth,_ZBufferParams);
-                        float linearEyeDepthFromALU = PivotPosCS.w;
+                        float linearEyeDepthFromSelfALU = PivotPosCS.w; //clip space .w is view space z, = linear eye depth
 
-                        //do the actual comparision test
+                        //do the actual depth comparision test
                         //+1 means flare test point is visible in screen space
                         //+0 means flare test point blocked by other objects in screen space, not visible
-                        visibilityTestPassedCount += linearEyeDepthFromALU+_DepthOcclusionTestZBias < linearEyeDepthFromSceneDepthTexture ? 1 : 0; 
+                        visibilityTestPassedCount += linearEyeDepthFromSelfALU + _DepthOcclusionTestZBias < linearEyeDepthFromSceneDepthTexture ? 1 : 0; 
                     }
                 }
 
                 float visibilityResult01 = visibilityTestPassedCount * divider;//0~100% visiblility result 
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //if camera too close to flare , smooth fade out to prevent flare blocking camera too much
+                //if camera too close to flare , smooth fade out to prevent flare blocking camera too much (usually for fps games)
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 visibilityResult01 *= smoothstep(_StartFadeinDistanceWorldUnit,_EndFadeinDistanceWorldUnit,linearEyeDepthOfFlarePivot);
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //apply shader flicker animation
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                //"uniform if" will not hurt performance in any morden hardware(even mobile) 
                 if(_ShouldDoFlicker)
                 {
                     float flickerMul = 0;
+                    //TODO: expose more control to noise? (send me an issue in GitHub, if anyone need this)
                     flickerMul += saturate(sin(_Time.y * _FlickerAnimSpeed * 1.0000)) * (1-_FlickResultIntensityLowestPoint) + _FlickResultIntensityLowestPoint;
                     flickerMul += saturate(sin(_Time.y * _FlickerAnimSpeed * 0.6437)) * (1-_FlickResultIntensityLowestPoint) + _FlickResultIntensityLowestPoint;   
                     visibilityResult01 *= saturate(flickerMul/2);
                 }
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //apply all combinations(visibilityResult01) to vertex color (r,g,b only, not a)
+                //apply all combinations(visibilityResult01) to vertex color
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 OUT.color.a *= visibilityResult01;
-                OUT.color.rgb *= OUT.color.a;
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //premultiply alpha to rgb after alpha's calculation is done
-                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                  
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+                OUT.color.rgb *= OUT.color.a;                 
                 OUT.color.a = _UsePreMultiplyAlpha? OUT.color.a : 0;
-
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //pure optimization:
                 //if flare is invisible or nearly invisible,
-                //move NDC vertex position outside of NDC unit cube,
-                //which cause GPU clipping every vertex, this early exit at clipping stage will prevent any rasterization & fragment shader cost at all
+                //move every vertex outside of NDC unit cube,
+                //which cause GPU clipping every vertex, this 100% early exit at clipping stage will prevent any rasterization & fragment shader cost at all
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 OUT.positionHCS = visibilityResult01 < divider ? float4(999,999,999,1) : OUT.positionHCS;
 
@@ -227,10 +229,10 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
 
             //Performance cost of rendering a billboard lens flare is 99.9% determined by fragment shader's complexity,
             //In this shader, fragment shader only handles the "look" of flare, without containing any billboard/flare's logic,
-            //so this shader is already the FASTEST way to render a billboard lens flare, you can't optimize it further anymore.
+            //so this shader is already the FASTEST way to render a billboard lens flare, you almost can't optimize it further anymore.
 
             //If you want a different "look", you can always edit the following fragment shader function to fit your project's needs, 
-            //all flare logic in vertex shader will still works without problem.
+            //all flare logic in vertex shader will still work as usual without problem.
             half4 frag(Varyings IN) : SV_Target
             {
                 return saturate(SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv)-_RemoveTextureArtifact) * IN.color;
