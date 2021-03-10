@@ -4,6 +4,7 @@ You can copy this shader file into your URP project and use it easily.
 
 Shader Result
 -------------------
+![Imgur](https://i.imgur.com/2vI7vuh.gif)
 See it in motion: https://youtu.be/owMhp5zZ1Sw
 ---
 (1) BEFORE(nothing added)
