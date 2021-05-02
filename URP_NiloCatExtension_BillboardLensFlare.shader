@@ -104,6 +104,11 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 float4 positionOS   : POSITION;
                 float2 uv           : TEXCOORD0;
                 half4 color        : COLOR;
+
+                // to support GPU instancing and Single Pass Stereo rendering(VR), add the following section
+                //------------------------------------------------------------------------------------------------------------------------------
+                UNITY_VERTEX_INPUT_INSTANCE_ID  // in non OpenGL / non PSSL, will turn into -> uint instanceID : SV_InstanceID;
+                //------------------------------------------------------------------------------------------------------------------------------ 
             };
 
             struct Varyings
@@ -111,6 +116,12 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 float4 positionHCS  : SV_POSITION;
                 float2 uv           : TEXCOORD0;
                 half4 color         : TEXCOORD1;
+
+                // to support GPU instancing and Single Pass Stereo rendering(VR), add the following section
+                //------------------------------------------------------------------------------------------------------------------------------
+                UNITY_VERTEX_INPUT_INSTANCE_ID  // will turn into this in non OpenGL / non PSSL -> uint instanceID : SV_InstanceID;
+                UNITY_VERTEX_OUTPUT_STEREO      // will turn into this in non OpenGL / non PSSL -> uint stereoTargetEyeIndexAsRTArrayIdx : SV_RenderTargetArrayIndex;
+                //------------------------------------------------------------------------------------------------------------------------------
             };
 
             #define COUNT 8 //you can edit to any number(e.g. 1~32), the lower the faster. Keeping this number a const can enable many compiler optimizations
@@ -120,6 +131,14 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
             {
                 //regular code, not related to billboard / flare
                 Varyings OUT;
+
+                // to support GPU instancing and Single Pass Stereo rendering(VR), add the following section
+                //------------------------------------------------------------------------------------------------------------------------------
+                UNITY_SETUP_INSTANCE_ID(IN);                 // will turn into this in non OpenGL / non PSSL -> UnitySetupInstanceID(input.instanceID);
+                UNITY_TRANSFER_INSTANCE_ID(IN, OUT);      // will turn into this in non OpenGL / non PSSL -> output.instanceID = input.instanceID;
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);  // will turn into this in non OpenGL / non PSSL -> output.stereoTargetEyeIndexAsRTArrayIdx = unity_StereoEyeIndex;
+                //------------------------------------------------------------------------------------------------------------------------------
+
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 OUT.color = IN.color * _BaseColor;
                 OUT.color.rgb *= _BaseColorRGBIntensity;
@@ -235,6 +254,12 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
             //all flare logic in vertex shader will still work as usual without problem.
             half4 frag(Varyings IN) : SV_Target
             {
+                // to support GPU instancing and Single Pass Stereo rendering(VR), add the following section
+                //------------------------------------------------------------------------------------------------------------------------------
+                UNITY_SETUP_INSTANCE_ID(IN);                     // in non OpenGL / non PSSL, MACRO will turn into -> UnitySetupInstanceID(input.instanceID);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);    // in non OpenGL / non PSSL, MACRO will turn into -> unity_StereoEyeIndex = input.stereoTargetEyeIndexAsRTArrayIdx;
+                //------------------------------------------------------------------------------------------------------------------------------
+
                 return saturate(SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv)-_RemoveTextureArtifact) * IN.color;
             }
             ENDHLSL
