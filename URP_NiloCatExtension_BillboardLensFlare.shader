@@ -238,10 +238,10 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //pure optimization:
                 //if flare is invisible or nearly invisible,
-                //move every vertex outside of NDC unit cube,
-                //which cause GPU clipping every vertex, this 100% early exit at clipping stage will prevent any rasterization & fragment shader cost at all
+                //invalid this vertex (and all connected vertices).
+                //This 100% early exit at clipping stage will prevent any rasterization & fragment shader cost at all
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                OUT.positionHCS = visibilityResult01 < divider ? float4(999,999,999,1) : OUT.positionHCS;
+                OUT.positionHCS = visibilityResult01 < divider ? 0 : OUT.positionHCS;
 
                 return OUT;
             }
