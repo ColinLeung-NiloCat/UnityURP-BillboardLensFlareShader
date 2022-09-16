@@ -30,6 +30,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
         [Header(Optional Flicker animation)]
         [Toggle]_ShouldDoFlicker("ShouldDoFlicker", FLoat) = 1
         _FlickerAnimSpeed("FlickerAnimSpeed", Float) = 5
+        _FlickerTimeDelay("FlickerTimeDelay",Float) = 0
         _FlickResultIntensityLowestPoint("FlickResultIntensityLowestPoint", range(0,1)) = 0.5
     }
 
@@ -86,6 +87,7 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
             float _EndFadeinDistanceWorldUnit;
 
             float _FlickerAnimSpeed;
+            float _FlickerTimeDelay;
             float _FlickResultIntensityLowestPoint;
             float _ShouldDoFlicker;
 
@@ -219,8 +221,8 @@ Shader "Universal Render Pipeline/NiloCat Extension/BillBoard LensFlare"
                 {
                     float flickerMul = 0;
                     //TODO: expose more control to noise? (send me an issue in GitHub, if anyone need this)
-                    flickerMul += saturate(sin(_Time.y * _FlickerAnimSpeed * 1.0000)) * (1-_FlickResultIntensityLowestPoint) + _FlickResultIntensityLowestPoint;
-                    flickerMul += saturate(sin(_Time.y * _FlickerAnimSpeed * 0.6437)) * (1-_FlickResultIntensityLowestPoint) + _FlickResultIntensityLowestPoint;   
+                    flickerMul += saturate(sin((_Time.y + _FlickerTimeDelay) * _FlickerAnimSpeed * 1.0000)) * (1-_FlickResultIntensityLowestPoint) + _FlickResultIntensityLowestPoint;
+                    flickerMul += saturate(sin((_Time.y + _FlickerTimeDelay) * 0.6437)) * (1-_FlickResultIntensityLowestPoint) + _FlickResultIntensityLowestPoint;   
                     visibilityResult01 *= saturate(flickerMul/2);
                 }
 
