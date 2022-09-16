@@ -62,8 +62,7 @@ Also, this shader moved almost all calculations from fragment shader to vertex s
 
 Editor environment requirement
 -----------------------
-- URP 7.3.1 or above
-- Unity 2019.3 or above
+- Unity 2020.3LTS or 2021.3LTS
 
 Hey, I found a bug! / I want some critical features!
 -----------------------
