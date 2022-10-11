@@ -4,6 +4,17 @@ You can copy this shader file into your URP project and use it easily.
 
 Shader Result
 -------------------
+### Genshin Impact MV - When The Stars Align (Genshin Impact website -> http://genshin.hoyoverse.com)
+![screenshot](https://i.imgur.com/sQeT2h9.jpg)
+![screenshot](https://i.imgur.com/xIY8OjB.jpg)
+![screenshot](https://i.imgur.com/Cw9ZkkA.jpg)
+![screenshot](https://i.imgur.com/pKciABD.jpg)
+![screenshot](https://i.imgur.com/pUGytbt.jpg)
+![screenshot](https://i.imgur.com/WXCPzCj.jpg)
+![screenshot](https://i.imgur.com/AxOlQ1V.jpg)
+![screenshot](https://i.imgur.com/N9DfuWO.jpg)
+- 【原神生日会】When The Stars Align https://www.bilibili.com/video/BV1vT411T79n
+
 ![Imgur](https://i.imgur.com/2vI7vuh.gif)
 - See it in motion: https://youtu.be/owMhp5zZ1Sw
 ---
